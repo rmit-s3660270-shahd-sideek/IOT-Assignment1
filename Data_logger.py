@@ -12,3 +12,5 @@ def get_sense_data():
 
 while True:
     print(get_sense_data())
+
+    print("Hello world!")
