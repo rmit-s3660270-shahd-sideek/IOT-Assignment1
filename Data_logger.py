@@ -16,7 +16,7 @@ sense = SenseHat()
 #method for recording all 3 types 
 def rec_data():
     humid = sense.get_humidity() #recoding humidity
-    if humid is not None:
+    if humid is not None: #Can I group temp and pressure on this same line?
         humid = round(humid , 1) 
     temp = sense.get_temperature() #recording tempetature 
     if temp is not None:
@@ -46,8 +46,8 @@ def displayData():
 
     # main function
 def main():
-    for i in range (0,3):
-        rec_data()
+    
+    rec_data()
     displayData()
 
 # Execute the main function
