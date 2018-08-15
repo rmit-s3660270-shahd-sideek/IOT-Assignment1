@@ -13,15 +13,6 @@ dbname='sensehat.db'
 sense = SenseHat()
 
 
-#method for recording temperature 
-def rec_temp():
-    temp = sense.get_temperature()
-    if temp is not None:
-        temp = round(temp , 1)
-        #ask why this doesnt work
-        logData(temp)
-    return temp
-
 #method for recording humidty
 def rec_humid():
     humid = sense.get_humidity()
@@ -30,6 +21,16 @@ def rec_humid():
         #ask why not working
         logData (humid)
     return humid
+
+
+#method for recording temperature 
+def rec_temp():
+    temp = sense.get_temperature()
+    if temp is not None:
+        temp = round(temp , 1)
+        #ask why this doesnt work
+        logData(temp)
+    return temp
 
 #method for recording pressure 
 def rec_pressure():
