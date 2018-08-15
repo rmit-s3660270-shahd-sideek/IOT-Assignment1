@@ -13,45 +13,24 @@ dbname='sensehat.db'
 sense = SenseHat()
 
 
-#method for recording humidty
-def rec_humid():
-    humid = sense.get_humidity()
+#method for recording all 3 types 
+def rec_data():
+    humid = sense.get_humidity() #recoding humidity
     if humid is not None:
-        humid = round(humid , 1)
-        #ask why not working
-        logData (humid)
-    return humid
-
-
-#method for recording temperature 
-def rec_temp():
-    temp = sense.get_temperature()
+        humid = round(humid , 1) 
+    temp = sense.get_temperature() #recording tempetature 
     if temp is not None:
         temp = round(temp , 1)
-        #ask why this doesnt work
-        logData(temp)
-    return temp
-
-#method for recording pressure 
-def rec_pressure():
-    pressure = sense.get_pressure()
+    pressure = sense.get_pressure() #recording pressure 
     if pressure is not None:
         pressure = round(pressure, 1)
-        #ask why not working
-        logData (pressure)
-    return pressure
+        logData (humid , temp , pressure)
+ 
 
-def getAllData():
-    temp = rec_temp()
-    humid = rec_humid()
-    pressure = rec_pressure()
-    logData(temp, humid, pressure) 
-
-
-def logData (temp, humid, pressure):
+def logData (humid, temp, pressure):
     conn=sqlite3.connect(dbname)
     curs=conn.cursor()
-    curs.execute("INSERT INTO SENSEHAT_data values(datetime('now'), (?), (?), (?))", (temp, humid, pressure))
+    curs.execute("INSERT INTO SENSEHAT_data values(datetime('now'), (?), (?), (?))", (humid, temp, pressure))
     conn.commit()
     conn.close()
 
@@ -68,7 +47,7 @@ def displayData():
     # main function
 def main():
     for i in range (0,3):
-        getAllData()
+        rec_data()
     displayData()
 
 # Execute the main function
