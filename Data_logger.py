@@ -2,8 +2,6 @@
 # The spec sheet states to measure Temperature, Humidity and anthing else relevant. Ive chosent pressure as the
 # other thing relevant  
 
-#Main code logic taken from week 4 lab code archive
-
 import time
 import sqlite3
 from sense_hat import SenseHat
