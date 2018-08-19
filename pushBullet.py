@@ -26,7 +26,6 @@ def send_notification_via_pushbullet(title, body):
     else:
         print('complete sending')
 
-#not sure if I have to make a seperate file to record accurate temperature 
 
 def send_message(send_notification_via_pushbullet):
     cpu_temp = os.popen("vcgencmd measure_temp").readline()
@@ -40,7 +39,7 @@ def send_message(send_notification_via_pushbullet):
     sense.show_message('Temp: {0:0.1f} *c'.format(accurateTemp), scroll_speed=0.05)
     sense.clear()
 
-
+    #reads temperature value from a config file
     with open('setTemp.config', 'r') as f:
         set_temp = f.read()
             
@@ -48,9 +47,6 @@ def send_message(send_notification_via_pushbullet):
             send_notification_via_pushbullet("The temperature is " + str(accurateTemp), "a sweater is not needed")
     else:
             send_notification_via_pushbullet("The temperature is " + str(accurateTemp), "you should bring a sweater!")
-
-
-
 
 
 

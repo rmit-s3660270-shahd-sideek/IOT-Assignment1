@@ -22,11 +22,11 @@ def rec_data():
     cpu_temp = cpu_temp.replace("temp=", "")
     cpu_temp = float(cpu_temp.replace("'C\n",""))
 
-    accurateTemp = round(cpu_temp - sense.get_temperature() , 1)
+    accurateTemp = round(cpu_temp - sense.get_temperature() , 1) #recording temp minus cpu heat
     
     
     humid = sense.get_humidity() #recoding humidity
-    if humid is not None: #Can I group temp and pressure on this same line?
+    if humid is not None: 
         humid = round(humid , 1) 
     pressure = sense.get_pressure() #recording pressure 
     if pressure is not None:
