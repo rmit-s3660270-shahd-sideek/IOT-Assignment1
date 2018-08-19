@@ -26,7 +26,7 @@ def search(user_name, device_name):
                 device_address = mac_address
                 break
         if device_address is not None:
-            with open("device_file.txt", "w") as device_file: #opens and writes name and mac address to a text file
+            with open('/home/pi/IOT/a1/config_files/device_file.txt', 'w') as device_file: #opens and writes name and mac address to a text file
                 device_file.write("{}, {}\r\n".format(user_name, device_address))
                 print("Hi {}, Your phone {} with the MAC address: {} has been registered".format(user_name, device_name, device_address))
                 smiley_face()

@@ -33,7 +33,7 @@ def rec_data():
         pressure = round(pressure, 1)
         logData (accurateTemp , humid, pressure)
  
-
+#logging into database
 def logData (accurateTemp, humid, pressure):
     conn=sqlite3.connect(dbname)
     curs=conn.cursor()

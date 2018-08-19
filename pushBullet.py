@@ -40,7 +40,7 @@ def send_message(send_notification_via_pushbullet):
     sense.clear()
 
     #reads temperature value from a config file
-    with open('setTemp.config', 'r') as f:
+    with open('/home/pi/IOT/a1/config_files/setTemp.config', 'r') as f:
         set_temp = f.read()
             
     if int(set_temp) < accurateTemp:

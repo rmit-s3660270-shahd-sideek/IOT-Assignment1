@@ -19,7 +19,7 @@ def main():
    
 def scan(nearby_devices):
    
-    with open('device_file.txt','r') as f:
+    with open('/home/pi/IOT/a1/config_files/device_file.txt','r') as f:
         for line in f:
             address = line.split(", ")[1]
         #splits the strings in the text by a comma
