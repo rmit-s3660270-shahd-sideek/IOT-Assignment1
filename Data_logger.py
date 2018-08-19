@@ -4,31 +4,40 @@
 
 import time
 import sqlite3
+import os
+import json
 from sense_hat import SenseHat
-dbname='sensehat.db'
+dbname='/home/pi/IOT/a1/sensehat.db'
 
 #making this global as I am recording data 3 ways 
 sense = SenseHat()
 
+sense.show_message("Working", scroll_speed = 0.05)
+
 
 #method for recording all 3 types 
 def rec_data():
+    #logic taken from: http://yaab-arduino.blogspot.com/2016/08/accurate-temperature-reading-sensehat.html
+    cpu_temp = os.popen("vcgencmd measure_temp").readline()
+    cpu_temp = cpu_temp.replace("temp=", "")
+    cpu_temp = float(cpu_temp.replace("'C\n",""))
+
+    accurateTemp = round(cpu_temp - sense.get_temperature() , 1)
+    
+    
     humid = sense.get_humidity() #recoding humidity
     if humid is not None: #Can I group temp and pressure on this same line?
         humid = round(humid , 1) 
-    temp = sense.get_temperature() #recording tempetature 
-    if temp is not None:
-        temp = round(temp , 1)
     pressure = sense.get_pressure() #recording pressure 
     if pressure is not None:
         pressure = round(pressure, 1)
-        logData (humid , temp , pressure)
+        logData (accurateTemp , humid, pressure)
  
 
-def logData (humid, temp, pressure):
+def logData (accurateTemp, humid, pressure):
     conn=sqlite3.connect(dbname)
     curs=conn.cursor()
-    curs.execute("INSERT INTO SENSEHAT_data values(datetime('now'), (?), (?), (?))", (humid, temp, pressure))
+    curs.execute("INSERT INTO SENSEHAT_data values(datetime('now'), (?), (?), (?))", (accurateTemp, humid, pressure))
     conn.commit()
     conn.close()
 

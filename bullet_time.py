@@ -7,6 +7,7 @@ from sense_hat import SenseHat
 
 sense = SenseHat()
 
+
 ACCESS_TOKEN="o.Nj1Zp70ZxuwLL0DyNOLD5OOqOed3rpHJ"
 
 def send_notification_via_pushbullet(title, body):
@@ -26,33 +27,36 @@ def send_notification_via_pushbullet(title, body):
         print('complete sending')
 
 #not sure if I have to make a seperate file to record accurate temperature 
-def too_cool():
+
+def send_message(send_notification_via_pushbullet):
     cpu_temp = os.popen("vcgencmd measure_temp").readline()
-    temp = float(cpu_temp.replace("temp=","").replace("'C\n",""))
-    return(temp)
+    cpu_temp = cpu_temp.replace("temp=", "")
+    cpu_temp = float(cpu_temp.replace("'C\n",""))
 
-def send_message():
-    humid = sense.get_temperature_from_humidity()
-    pressure = sense.get_temperature_from_pressure()
-    t_cpu = too_cool()
+    accurateTemp = round(cpu_temp - sense.get_temperature() , 1)
+    
+    
 
-    # calculates the real temperature compesating CPU heating
-    t = (humid + pressure)/2
-    t_corrected = t - ((t_cpu - t)/1.5)
+    sense.show_message('Temp: {0:0.1f} *c'.format(accurateTemp), scroll_speed=0.05)
+    sense.clear()
 
-    title = "It is less than 20 degrees!"
-    note = "You should bring a sweater"
 
-    if t_corrected < 20:
-         send_notification_via_pushbullet(title, note)  #is there a better way of doing this?
-         time.sleep(300) #set to 5 minutes so phone doesn't get spammed
+    with open('setTemp.config', 'r') as f:
+        set_temp = f.read()
+            
+    if int(set_temp) < accurateTemp:
+            send_notification_via_pushbullet("The temperature is " + str(accurateTemp), "a sweater is not needed")
+    else:
+            send_notification_via_pushbullet("The temperature is " + str(accurateTemp), "you should bring a sweater!")
+
+
 
 
 
 
 #main function
 def main():
-    send_message()
+    send_message(send_notification_via_pushbullet)
 
 #Execute
 main()
